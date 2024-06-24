@@ -28,7 +28,7 @@ def ball_settings():
     ball_speed_x = 2
     return ball_pos_y, ball_speed_x, ball_speed_y, ball_radius, ball_pos_x
 
-def display_game_over(screen):
+def display_game_over(screen, max_score):
     width, height = screen_settings()
     font = pygame.font.Font(None, 74)
     game_over_text = font.render('Game Over', True, (255, 255, 255))
@@ -38,6 +38,10 @@ def display_game_over(screen):
     restart_text = font.render('Restart', True, (255, 255, 255))
     restart_button = pygame.draw.rect(screen, (0, 255, 0), [width // 2 - 50, height // 2 + 50, 100, 50])
     screen.blit(restart_text, (width // 2 - restart_text.get_width() // 2, height // 2 + 65))
+
+    font = pygame.font.Font(None, 36)
+    score_text = font.render(f'Max Score: {max_score}', True, (255, 255, 255))
+    screen.blit(score_text, (width // 2 - score_text.get_width() // 2, height // 2 + 125))
 
     return restart_button
 

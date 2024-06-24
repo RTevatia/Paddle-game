@@ -13,6 +13,7 @@ def run_game():
     ball_pos_y, ball_speed_x, ball_speed_y, ball_radius, ball_pos_x = ball_settings()
     score = 0
     max_score = 0
+    level = 1
 
     # Initialize pygame
     pygame.init()
@@ -58,10 +59,17 @@ def run_game():
 
 
             # simple collision detection
-            score, ball_speed_x, ball_speed_y = collision(width, height, bar_width, bar_y, bar_x, ball_pos_y, 
+            new_score, ball_speed_x, ball_speed_y = collision(width, height, bar_width, bar_y, bar_x, ball_pos_y, 
                                                         ball_speed_x, ball_speed_y, ball_radius, ball_pos_x, score)
             
-            
+            # Increase level if score is a multiple of 5
+            if new_score > score and new_score // 5 > level - 1:
+                level += 1
+                ball_speed_x *= 1.2  # Increase speed by 20%
+                ball_speed_y *= 1.2
+
+            score = new_score
+
             # Check if ball misses the paddle
             if ball_pos_y + ball_radius >= height:
                 game_over = True
@@ -77,12 +85,16 @@ def run_game():
             score_text = font.render(f'Max Score: {max_score}', True, (255, 255, 255))
             screen.blit(score_text, (10, 40))
 
+            # Display the level
+            level_text = font.render(f'Level: {level}', True, (255, 255, 255))
+            screen.blit(level_text, (500, 10))
+
             if score >= max_score:
                 max_score = score
                 
         else:
             screen.fill("black")
-            restart_button = display_game_over(screen)
+            restart_button = display_game_over(screen, max_score)
         
         pygame.display.flip()
 
