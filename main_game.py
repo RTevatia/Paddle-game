@@ -12,6 +12,7 @@ def run_game():
     bar_width, bar_length, bar_y, bar_x, bar_speed = bar_settings()
     ball_pos_y, ball_speed_x, ball_speed_y, ball_radius, ball_pos_x = ball_settings()
     score = 0
+    max_score = 0
 
     # Initialize pygame
     pygame.init()
@@ -60,6 +61,7 @@ def run_game():
             score, ball_speed_x, ball_speed_y = collision(width, height, bar_width, bar_y, bar_x, ball_pos_y, 
                                                         ball_speed_x, ball_speed_y, ball_radius, ball_pos_x, score)
             
+            
             # Check if ball misses the paddle
             if ball_pos_y + ball_radius >= height:
                 game_over = True
@@ -69,6 +71,15 @@ def run_game():
             font = pygame.font.Font(None, 36)
             score_text = font.render(f'Score: {score}', True, (255, 255, 255))
             screen.blit(score_text, (10, 10))
+
+            # Display the score
+            font = pygame.font.Font(None, 36)
+            score_text = font.render(f'Max Score: {max_score}', True, (255, 255, 255))
+            screen.blit(score_text, (10, 40))
+
+            if score >= max_score:
+                max_score = score
+                
         else:
             screen.fill("black")
             restart_button = display_game_over(screen)
